@@ -1,0 +1,13 @@
+.build/
+.swiftpm/
+DerivedData/
+dist/
+*.xcuserdata/
+*.xcuserstate
+.DS_Store
+
+# Local secrets and generated provider state
+*.env
+*.env.*
+TokenBar.local.json
+reference/

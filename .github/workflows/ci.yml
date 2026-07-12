@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Toolchain
+        run: swift --version
+      - name: Test
+        run: swift test
+      - name: Release build
+        run: swift build -c release
+      - name: Validate repository
+        run: |
+          git diff --check
+          if git grep -nE '(x-page-token|RIO_TOKEN|TOKENBAR_COMPANY_COOKIE|sk-[A-Za-z0-9])' -- ':!Package.resolved' ':!.github/workflows/ci.yml'; then
+            echo "Potential credential found in tracked files." >&2
+            exit 1
+          fi

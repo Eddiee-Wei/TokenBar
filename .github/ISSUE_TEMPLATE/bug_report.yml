@@ -1,0 +1,42 @@
+name: Bug report
+description: Report a reproducible TokenBar problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, cookies, prompts, source code, or private account responses.
+  - type: input
+    id: version
+    attributes:
+      label: TokenBar version
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS and Mac model
+      placeholder: macOS 15.5, Apple Silicon
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the actual and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: "1. Open TokenBar\n2. Click…\n3. Observe…"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted diagnostics
+      description: Remove usernames, paths, account data, tokens, and private content.
+      render: shell
