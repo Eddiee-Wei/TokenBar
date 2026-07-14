@@ -197,9 +197,61 @@ public struct TokenBarStrings: Sendable {
     public var officialLive: String { text("Official live data", "官方实时") }
     public var noQuotaSnapshot: String { text("No quota snapshot available.", "暂无额度快照。") }
     public var openUsagePage: String { text("Open Usage Page", "打开用量页") }
+    public func planSummary(_ value: String?) -> String? {
+        let plan: String?
+        switch value {
+        case "free": plan = "Free"
+        case "go": plan = "Go"
+        case "plus": plan = "Plus"
+        case "pro": plan = "Pro"
+        case "prolite": plan = "Pro Lite"
+        case "team": plan = "Team"
+        case "self_serve_business_usage_based", "business": plan = "Business"
+        case "enterprise_cbp_usage_based", "enterprise": plan = "Enterprise"
+        case "edu": plan = "Edu"
+        case "unknown", nil: plan = nil
+        case let value?: plan = value
+        }
+        return plan.map { text("\($0) plan", "\($0) 方案") }
+    }
+    public func popoverWindowTitle(quota: String?, window: String?) -> String {
+        let quotaWindow: String
+        let period: String
+        switch window {
+        case "5h":
+            quotaWindow = text("5-hour quota", "5 小时额度")
+            period = text("5 hours", "5 小时")
+        case "7d":
+            quotaWindow = text("Weekly quota", "每周额度")
+            period = text("Weekly", "每周")
+        case "24h":
+            quotaWindow = text("Daily quota", "每日额度")
+            period = text("Daily", "每日")
+        case "month":
+            quotaWindow = text("Monthly quota", "每月额度")
+            period = text("Monthly", "每月")
+        case let value?:
+            quotaWindow = text("\(value) quota", "\(value) 额度")
+            period = value
+        case nil:
+            quotaWindow = text("Quota", "额度")
+            period = text("Quota", "额度")
+        }
+
+        guard let quota, quota.caseInsensitiveCompare("Codex") != .orderedSame else {
+            return quotaWindow
+        }
+        return "\(quota) · \(period)"
+    }
     public func remaining(_ percent: Int) -> String { text("\(percent)% remaining", "剩余 \(percent)%") }
     public func showInMenuBar(_ title: String) -> String {
         text("Show \(title) in the menu bar", "在菜单栏显示 \(title)")
+    }
+    public var selectedForMenuBar: String {
+        text("Selected for the menu bar", "已选为菜单栏额度")
+    }
+    public var notSelectedForMenuBar: String {
+        text("Not selected for the menu bar", "未选为菜单栏额度")
     }
     public var noResetTime: String { text("No reset time", "无重置时间") }
     public var reset: String { text("Reset", "已重置") }

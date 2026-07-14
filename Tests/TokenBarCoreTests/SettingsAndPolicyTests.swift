@@ -79,6 +79,23 @@ struct SettingsAndPolicyTests {
         #expect(TokenBarStrings(.simplifiedChinese).settings == "设置")
         #expect(TokenBarStrings(.english).window("7d") == "7 days")
         #expect(TokenBarStrings(.simplifiedChinese).window("7d") == "7 天")
+        #expect(TokenBarStrings(.english).planSummary("pro") == "Pro plan")
+        #expect(TokenBarStrings(.simplifiedChinese).planSummary("pro") == "Pro 方案")
+        #expect(TokenBarStrings(.english).planSummary("unknown") == nil)
+        #expect(
+            TokenBarStrings(.english).popoverWindowTitle(quota: "Codex", window: "7d")
+                == "Weekly quota"
+        )
+        #expect(
+            TokenBarStrings(.simplifiedChinese).popoverWindowTitle(quota: "Codex", window: "7d")
+                == "每周额度"
+        )
+        #expect(
+            TokenBarStrings(.english).popoverWindowTitle(
+                quota: "GPT-5.3-Codex-Spark",
+                window: "7d"
+            ) == "GPT-5.3-Codex-Spark · Weekly"
+        )
     }
 
     @Test("Notification policy fires once at threshold crossing")

@@ -150,14 +150,12 @@ private struct ProviderRow: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(update.displayName)
                         .font(.subheadline.weight(.semibold))
-                    Text(strings.text(
-                        "QUOTA CHANNELS / \(quotaSnapshots.count) · \(subtitle)",
-                        "额度通道 / \(quotaSnapshots.count) · \(subtitle)"
-                    ))
-                        .font(.caption2.monospaced())
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
+                    if let planSummary {
+                        Text(planSummary)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
                 }
                 Spacer()
                 statusBadge
@@ -234,18 +232,8 @@ private struct ProviderRow: View {
         quotaSnapshots.compactMap(\.detail).first
     }
 
-    private var hasMultipleQuotaScopes: Bool {
-        Set(quotaSnapshots.compactMap(\.quotaLabel)).count > 1
-    }
-
-    private var subtitle: String {
-        if !quotaSnapshots.isEmpty {
-            let source = label(for: update.snapshot?.sourceFreshness ?? quotaSnapshots[0].sourceFreshness)
-            let confidence = label(for: update.snapshot?.confidence ?? quotaSnapshots[0].confidence)
-            let plan = localizedPlan(update.snapshot?.plan ?? quotaSnapshots[0].plan)
-            return ([plan, source, confidence].compactMap { $0 }).joined(separator: " · ")
-        }
-        return label(for: update.status)
+    private var planSummary: String? {
+        strings.planSummary(update.snapshot?.plan ?? quotaSnapshots.first?.plan)
     }
 
     private func quotaWindow(_ snapshot: QuotaSnapshot, showWindowLabel: Bool = false) -> some View {
@@ -270,7 +258,7 @@ private struct ProviderRow: View {
                                 strings: strings
                             )
                         }
-                        Image(systemName: selected ? "record.circle.fill" : "circle")
+                        Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                             .font(.caption2)
                             .foregroundStyle(
                                 selected ? TokenBarTheme.codexEmerald : Color.secondary.opacity(0.55)
@@ -312,17 +300,26 @@ private struct ProviderRow: View {
                         .lineLimit(2)
                 }
             }
-            .padding(.leading, 7)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 5)
+            .background(
+                selected ? TokenBarTheme.codexEmerald.opacity(0.08) : .clear,
+                in: RoundedRectangle(cornerRadius: 5, style: .continuous)
+            )
             .overlay(alignment: .leading) {
                 Capsule()
                     .fill(TokenBarTheme.codexEmerald)
-                    .frame(width: 2, height: 26)
+                    .frame(width: 3, height: 28)
                     .opacity(selected ? 1 : 0)
             }
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .help(strings.showInMenuBar(windowTitle(for: snapshot)))
+        .accessibilityLabel(windowTitle(for: snapshot))
+        .accessibilityValue(
+            selected ? strings.selectedForMenuBar : strings.notSelectedForMenuBar
+        )
     }
 
     private var statusBadge: some View {
@@ -346,41 +343,8 @@ private struct ProviderRow: View {
         snapshot.windowLabel != "5h"
     }
 
-    private func label(for freshness: SourceFreshness) -> String {
-        strings.freshness(freshness)
-    }
-
-    private func label(for confidence: SnapshotConfidence) -> String {
-        strings.confidence(confidence)
-    }
-
-    private func localizedWindow(_ value: String?) -> String {
-        strings.window(value)
-    }
-
     private func windowTitle(for snapshot: QuotaSnapshot) -> String {
-        let window = localizedWindow(snapshot.windowLabel)
-        guard hasMultipleQuotaScopes, let quota = snapshot.quotaLabel else {
-            return window
-        }
-        return "\(quota) · \(window)"
-    }
-
-    private func localizedPlan(_ value: String?) -> String? {
-        switch value {
-        case "free": "Free"
-        case "go": "Go"
-        case "plus": "Plus"
-        case "pro": "Pro"
-        case "prolite": "Pro Lite"
-        case "team": "Team"
-        case "self_serve_business_usage_based", "business": "Business"
-        case "enterprise_cbp_usage_based", "enterprise": "Enterprise"
-        case "edu": "Edu"
-        case "unknown": nil
-        case let value?: value
-        case nil: nil
-        }
+        strings.popoverWindowTitle(quota: snapshot.quotaLabel, window: snapshot.windowLabel)
     }
 }
 

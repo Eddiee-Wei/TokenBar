@@ -2,6 +2,15 @@
 
 All notable TokenBar changes are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-07-14
+
+### Changed
+
+- Simplified quota headers so the popover emphasizes the plan and returned quota windows instead of technical channel metadata.
+- Added clearer weekly, daily, monthly, and model-specific quota labels that adapt to the current Codex App Server response.
+- Improved selected-window highlighting and accessibility descriptions.
+- Added bilingual first-launch guidance to the DMG and expanded the README steps for macOS security prompts.
+
 ## [0.2.0] - 2026-07-12
 
 ### Added
@@ -23,5 +32,6 @@ All notable TokenBar changes are documented here. The project follows [Semantic 
 
 - Initial public binary preview.
 
+[0.2.1]: https://github.com/Eddiee-Wei/TokenBar/releases/tag/v0.2.1
 [0.2.0]: https://github.com/Eddiee-Wei/TokenBar/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Eddiee-Wei/TokenBar-Releases/releases/tag/v0.1.0
