@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-0b8f6a.svg)](LICENSE)
 [![macOS 14+](https://img.shields.io/badge/macOS-14%2B-111111.svg)](https://github.com/Eddiee-Wei/TokenBar/releases/latest)
 
-TokenBar is an open-source, local-first macOS menu bar app for monitoring Codex quota. It shows every official quota window reported by the local Codex App Server, including the standard 5-hour and 7-day windows and model-specific buckets such as Codex Spark.
+TokenBar is an open-source, local-first macOS menu bar app for monitoring Codex quota. It shows every official quota window currently reported by the local Codex App Server and adapts when those windows change, including weekly and model-specific buckets, plus a 5-hour window whenever Codex provides one.
 
 [Download TokenBar.dmg](https://github.com/Eddiee-Wei/TokenBar/releases/latest/download/TokenBar.dmg) · [All releases](https://github.com/Eddiee-Wei/TokenBar/releases)
 
@@ -15,7 +15,7 @@ TokenBar is an open-source, local-first macOS menu bar app for monitoring Codex 
 
 ## Highlights
 
-- Live 5-hour, 7-day, and model-specific Codex quota windows.
+- Live Codex quota windows exactly as reported, including weekly, model-specific, and 5-hour windows when available.
 - A battery-style menu bar indicator whose fill and color follow the selected quota.
 - Click any quota row to pin that window to the menu bar; the choice persists after restart.
 - Exact reset countdowns, automatic refresh, low-quota notifications, and Launch at Login.
@@ -34,7 +34,15 @@ TokenBar automatically finds the current ChatGPT/Codex app. If detection fails, 
 
 ### First Launch on macOS
 
-If macOS prevents the first launch, open `System Settings > Privacy & Security`, find TokenBar, click `Open Anyway`, and confirm. Only download TokenBar from this repository and verify the attached `SHA256SUMS`.
+Current community builds are not Apple-notarized. If macOS says it cannot verify TokenBar:
+
+1. Click `Done` in the warning. Do not move the app to Trash.
+2. Open `System Settings > Privacy & Security` and scroll to `Security`.
+3. Find the message that TokenBar was blocked, then click `Open Anyway`.
+4. Authenticate with your Mac password or Touch ID, then click `Open`.
+5. Launch TokenBar normally from Applications. This exception is saved for future launches.
+
+The `Open Anyway` button is available for about one hour after the blocked launch attempt. You do not need to disable Gatekeeper or run Terminal commands. Only download TokenBar from this repository and verify the attached `SHA256SUMS`. See [Apple's official instructions](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
 
 ## Requirements
 
@@ -77,13 +85,13 @@ TokenBar is an independent project and is not affiliated with, endorsed by, or s
 
 ## 简体中文
 
-TokenBar 是一个开源、本地优先的 macOS 菜单栏 Codex 额度工具。它会展示 Codex 官方本机 App Server 返回的全部额度窗口，包括常规 5 小时、7 天额度，以及 Codex Spark 等模型独立额度桶。
+TokenBar 是一个开源、本地优先的 macOS 菜单栏 Codex 额度工具。它会动态展示 Codex 官方本机 App Server 当前返回的全部额度窗口，包括每周、模型独立额度，以及服务端提供时的 5 小时额度。
 
 [下载 TokenBar.dmg](https://github.com/Eddiee-Wei/TokenBar/releases/latest/download/TokenBar.dmg) · [全部版本](https://github.com/Eddiee-Wei/TokenBar/releases)
 
 ## 主要功能
 
-- 实时展示 Codex 5 小时、7 天和模型独立额度。
+- 按 Codex 当前返回结果实时展示每周、模型独立额度，以及可用时的 5 小时额度。
 - 电池式菜单栏图标，填充量和颜色跟随当前选中的额度。
 - 点击任意额度行即可固定到菜单栏，重启后仍保留选择。
 - 提供重置倒计时、自动刷新、低额度通知和开机启动。
@@ -102,7 +110,15 @@ TokenBar 会自动寻找新版 ChatGPT/Codex 应用。检测失败时会打开 C
 
 ### macOS 首次启动
 
-如果 macOS 阻止首次启动，请打开`系统设置 > 隐私与安全性`，找到 TokenBar，点击`仍要打开`并确认。请只从本仓库下载 TokenBar，并核对 Release 附带的 `SHA256SUMS`。
+当前社区构建尚未经过 Apple 公证。如果 macOS 提示无法验证 TokenBar：
+
+1. 在警告窗口点击`完成`，不要将 App 移到废纸篓。
+2. 打开`系统设置 > 隐私与安全性`，向下滚动到`安全性`。
+3. 找到“已阻止使用 TokenBar”的提示，点击`仍要打开`。
+4. 使用 Mac 密码或 Touch ID 验证，再点击`打开`。
+5. 之后可从“应用程序”正常启动 TokenBar，系统会记住这次例外。
+
+`仍要打开`按钮通常只会在首次尝试启动后保留约一小时。无需关闭 Gatekeeper，也无需执行终端命令。请只从本仓库下载 TokenBar，并核对 Release 附带的 `SHA256SUMS`。详见 [Apple 官方说明](https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac)。
 
 ## 使用条件
 

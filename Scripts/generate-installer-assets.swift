@@ -142,6 +142,27 @@ let background = try bitmap(
     NSColor(calibratedWhite: 0.95, alpha: 1).setStroke()
     iconBackdrop.lineWidth = 2.5
     iconBackdrop.stroke()
+
+    let firstLaunchHelp = "Blocked? System Settings > Privacy & Security > Open Anyway" as NSString
+    let firstLaunchHelpCN = "无法打开？系统设置 > 隐私与安全性 > 仍要打开" as NSString
+    let helpAttributes: [NSAttributedString.Key: Any] = [
+        .font: NSFont.systemFont(ofSize: 10.5, weight: .regular),
+        .foregroundColor: NSColor(calibratedWhite: 0.42, alpha: 1)
+    ]
+    let helpCNAttributes: [NSAttributedString.Key: Any] = [
+        .font: NSFont.systemFont(ofSize: 10.5, weight: .regular),
+        .foregroundColor: NSColor(calibratedWhite: 0.48, alpha: 1)
+    ]
+    let helpSize = firstLaunchHelp.size(withAttributes: helpAttributes)
+    let helpCNSize = firstLaunchHelpCN.size(withAttributes: helpCNAttributes)
+    firstLaunchHelp.draw(
+        at: NSPoint(x: (660 - helpSize.width) / 2, y: 32),
+        withAttributes: helpAttributes
+    )
+    firstLaunchHelpCN.draw(
+        at: NSPoint(x: (660 - helpCNSize.width) / 2, y: 16),
+        withAttributes: helpCNAttributes
+    )
 }
 background.size = backgroundSize
 
